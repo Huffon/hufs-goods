@@ -20,7 +20,7 @@ $form.submit(function (event) {
             $form.find('button').prop('disabled', false);
         } else {
             var token = token.id;
-            $form.append($(<input type="hidden" name="stripeToken" />).val(token));
+            $form.append($(<input type="hidden"/>).val(token));
             $form.get(0).submit();
         }
     });

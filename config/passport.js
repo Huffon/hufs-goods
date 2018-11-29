@@ -30,15 +30,15 @@ passport.use('local.signup', new LocalStrategy({
         return done(null, false, req.flash('error', messages));
     }
     User.findOne({'email': email}, function(err, user) {
-        if (err) {
-            return done(err);
-        }
-        if (user) {
-            return done(null, false, {message: '이미 존재하는 이메일입니다.'});
-        }
+        if (err) return done(err);
+        if (user) return done(null, false, {message: '이미 존재하는 이메일입니다.'});
+
         var newUser = new User();
         newUser.email = email;
         newUser.password = newUser.encryptPassword(password);
+        newUser.address = 'address';
+        newUser.phone = 'phone';
+        newUser.name = 'name';
         newUser.save(function(err, reuslt) {
            if(err){
             return done(err);
