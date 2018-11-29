@@ -1,6 +1,8 @@
+// stripe.js API 불러오는 함수
 var stripe = Stripe('pk_test_3nIISsyJU2XY9HI6glcoj1Tb');
 
 var $form = $('#checkout-form');
+
 
 $form.submit(function (event) {
     $form.find('button').prop('disabled', true);
@@ -9,8 +11,7 @@ $form.submit(function (event) {
             number: $('#card-number').val(),
             cvc: $('#card-cvc').val(),
             exp_month: $('#card-expiry-month').val(),
-            exp_year: $('#card-expiry-year').val(),
-            name: $('#card-name').val()
+            exp_year: $('#card-expiry-year').val()
         }
     }, function(err, token) {
         if (err) {

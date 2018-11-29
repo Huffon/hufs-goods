@@ -1,4 +1,6 @@
-<div class="containter">
+{{!-- 로그인 페이지 view --}}
+<br/><br/>
+<div class="jumbotron">
     <div class="col-md-5 col-md-offset-5">
         <h1>Sign In</h1>
         {{# if hasErrors}}
@@ -20,6 +22,6 @@
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             <button type="submit" class="btn btn-primary pull-right">Sign In</button>
         </form>
-        <p>회원이 아니신가요? <a href="/user/signup">회원 가입을 먼저 해주세요!</a></p>
+        <p>회원이 아니시라면, <a href="/user/signup">회원 가입을 해주세요!</a></p>
     </div>
 </div>

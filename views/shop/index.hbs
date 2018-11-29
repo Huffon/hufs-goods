@@ -1,4 +1,6 @@
+{{!-- 구매 성공 시 성공 메시지 --}}
 <div class="row">
+    <br/>
     <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
         <div id="success" class="text-center alert alert-success" {{#if noMessage}}hidden{{/if}}>
             {{ successMsg }}
@@ -6,6 +8,8 @@
     </div>
 </div>
 <br/>
+
+{{!-- 초기 화면에 제품들 찍어주는 코드 --}}
 {{# each products }}
 <div class="row">
     {{# each this }}

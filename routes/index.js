@@ -4,7 +4,7 @@ var Product = require('../models/product');
 var Cart = require('../models/cart');
 var Order = require('../models/order');
 
-/* GET home page. */
+// 초기 화면 렌더링
 router.get('/', function(req, res, next) {
   var successMsg = req.flash('success')[0];
   Product.find(function(err, docs) {
@@ -17,6 +17,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
+// 장바구니 기능 구현
 router.get('/add-to-cart/:id', function(req, res, next) {
     var productId = req.params.id;
     var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -32,6 +33,7 @@ router.get('/add-to-cart/:id', function(req, res, next) {
     });
 });
 
+// 장바구니 상품 1개씩 감소하는 기능 구현
 router.get('/reduce/:id', function(req, res, next) {
     var productId = req.params.id;
     var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -41,23 +43,26 @@ router.get('/reduce/:id', function(req, res, next) {
     res.redirect('/shopping-cart');
 });
 
+// 쇼핑카트 렌더링
 router.get('/shopping-cart', function(req, res, next) {
     if (!req.session.cart) {
         return res.render('shop/shopping-cart', {products: null});
     }
     var cart = new Cart(req.session.cart);
-    res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+    res.render('shop/shopping-cart', {title: 'Hufs Goods', products: cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
+// 결제창 렌더링 
 router.get('/checkout', isLoggedIn, function(req, res, next) {
     if (!req.session.cart) {
         return res.redirect('/shopping-cart');
     }
     var cart = new Cart(req.session.cart);
     var errMsg = req.flash('error')[0];
-    res.render('shop/checkout', {totalPrice: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
+    res.render('shop/checkout', {title: 'Hufs Goods', totalPrice: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
 });
 
+// 결제 기능 구현
 router.post('/checkout', isLoggedIn, function(req, res, next) {
     if (!req.session.cart) {
         return res.redirect('/shopping-cart');
@@ -94,6 +99,7 @@ router.post('/checkout', isLoggedIn, function(req, res, next) {
 
 module.exports = router;
 
+// 로그인 되어있는지 확인하는 함수
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
