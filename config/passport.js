@@ -1,3 +1,4 @@
+// 로그인을 위한 passport.js 설정
 var passport = require('passport');
 var User = require('../models/user');
 var LocalStrategy = require('passport-local').Strategy;
@@ -12,6 +13,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
+// 회원가입 검사
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
@@ -46,6 +48,7 @@ passport.use('local.signup', new LocalStrategy({
     });
 }));
 
+// 로그인 검사
 passport.use('local.signin', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
