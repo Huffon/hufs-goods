@@ -39,7 +39,7 @@ var products = [
         description: 'HUFS 기념주',
         price: 50000,
         category: 1,
-        qty: 50
+        qty: 0
     })
 ];
 
