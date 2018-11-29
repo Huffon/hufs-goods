@@ -12,16 +12,16 @@ var validator = require('express-validator');
 var MongoStore = require('connect-mongo')(session);
 
 var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user')
+var userRouter = require('./routes/user');
+var favicon = require('serve-favicon');
 var app = express();
-
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 mongoose.connect('mongodb://localhost:27017/shopping', {useNewUrlParser:true});
 require('./config/passport');
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', '.hbs');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

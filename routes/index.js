@@ -17,6 +17,19 @@ router.get('/', function(req, res, next) {
   });
 });
 
+// 공예품 화면 렌더링
+router.get('/craft', function(req, res, next) {
+  var successMsg = req.flash('success')[0];
+  Product.find({ category: 1 }, function(err, docs) {
+      var productChunks = [];
+      var chunkSize = 3;
+      for (var i = 0; i < docs.length; i += chunkSize) {
+          productChunks.push(docs.slice(i, i + chunkSize));
+      }
+      res.render('shop/craft', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });  
+  });
+});
+
 // 장바구니 기능 구현
 router.get('/add-to-cart/:id', function(req, res, next) {
     var productId = req.params.id;
