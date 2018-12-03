@@ -13,23 +13,62 @@ router.get('/', function(req, res, next) {
       for (var i = 0; i < docs.length; i += chunkSize){
           productChunks.push(docs.slice(i, i + chunkSize));
       }
-      res.render('shop/index', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });  
+      res.render('shop/index', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
   });
 });
 
 // 공예품 화면 렌더링
-router.get('/craft', function(req, res, next) {
-  var successMsg = req.flash('success')[0];
-  Product.find({ category: 1 }, function(err, docs) {
-      var productChunks = [];
-      var chunkSize = 3;
-      for (var i = 0; i < docs.length; i += chunkSize) {
-          productChunks.push(docs.slice(i, i + chunkSize));
-      }
-      res.render('shop/craft', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });  
+router.get('/category1', function(req, res, next) {
+    var successMsg = req.flash('success')[0];
+    Product.find({ category: 1 }, function(err, docs) {
+        var productChunks = [];
+        var chunkSize = 3;
+        for (var i = 0; i < docs.length; i += chunkSize) {
+            productChunks.push(docs.slice(i, i + chunkSize));
+        }
+        res.render('shop/craft', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
+    });
   });
-});
 
+
+// 시계/감사패 화면 렌더링
+router.get('/category2', function(req, res, next) {
+    var successMsg = req.flash('success')[0];
+    Product.find({ category: 2 }, function(err, docs) {
+        var productChunks = [];
+        var chunkSize = 3;
+        for (var i = 0; i < docs.length; i += chunkSize) {
+            productChunks.push(docs.slice(i, i + chunkSize));
+        }
+        res.render('shop/watch', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
+    });
+  });
+
+  // 사무/문구 화면 렌더링
+router.get('/category3', function(req, res, next) {
+    var successMsg = req.flash('success')[0];
+    Product.find({ category: 3 }, function(err, docs) {
+        var productChunks = [];
+        var chunkSize = 3;
+        for (var i = 0; i < docs.length; i += chunkSize) {
+            productChunks.push(docs.slice(i, i + chunkSize));
+        }
+        res.render('shop/stationery', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
+    });
+  });
+
+  // 생활잡화 화면 렌더링
+router.get('/category4', function(req, res, next) {
+    var successMsg = req.flash('success')[0];
+    Product.find({ category: 4 }, function(err, docs) {
+        var productChunks = [];
+        var chunkSize = 3;
+        for (var i = 0; i < docs.length; i += chunkSize) {
+            productChunks.push(docs.slice(i, i + chunkSize));
+        }
+        res.render('shop/living', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
+    });
+  });
 // 장바구니 기능 구현
 router.get('/add-to-cart/:id', function(req, res, next) {
     var productId = req.params.id;
@@ -65,7 +104,7 @@ router.get('/shopping-cart', function(req, res, next) {
     res.render('shop/shopping-cart', {title: 'Hufs Goods', products: cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
-// 결제창 렌더링 
+// 결제창 렌더링
 router.get('/checkout', isLoggedIn, function(req, res, next) {
     if (!req.session.cart) {
         return res.redirect('/shopping-cart');
@@ -79,7 +118,7 @@ router.get('/checkout', isLoggedIn, function(req, res, next) {
 router.post('/checkout', isLoggedIn, function(req, res, next) {
     if (!req.session.cart) {
         return res.redirect('/shopping-cart');
-    }    
+    }
 
     var cart = new Cart(req.session.cart);
 
@@ -105,7 +144,7 @@ router.post('/checkout', isLoggedIn, function(req, res, next) {
         order.save(function(err, result) {
             req.flash('success', '구매가 성공적으로 이루어졌습니다.');
             req.session.cart = null;
-            res.redirect('/');    
+            res.redirect('/');
         });
     });
 });
