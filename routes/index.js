@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 // 공예품 화면 렌더링
-router.get('/category1', function(req, res, next) {
+router.get('/craft', function(req, res, next) {
     var successMsg = req.flash('success')[0];
     Product.find({ category: 1 }, function(err, docs) {
         var productChunks = [];
@@ -32,7 +32,7 @@ router.get('/category1', function(req, res, next) {
 
 
 // 시계/감사패 화면 렌더링
-router.get('/category2', function(req, res, next) {
+router.get('/watch', function(req, res, next) {
     var successMsg = req.flash('success')[0];
     Product.find({ category: 2 }, function(err, docs) {
         var productChunks = [];
@@ -45,7 +45,7 @@ router.get('/category2', function(req, res, next) {
   });
 
   // 사무/문구 화면 렌더링
-router.get('/category3', function(req, res, next) {
+router.get('/stationery', function(req, res, next) {
     var successMsg = req.flash('success')[0];
     Product.find({ category: 3 }, function(err, docs) {
         var productChunks = [];
@@ -58,7 +58,7 @@ router.get('/category3', function(req, res, next) {
   });
 
   // 생활잡화 화면 렌더링
-router.get('/category4', function(req, res, next) {
+router.get('/living', function(req, res, next) {
     var successMsg = req.flash('success')[0];
     Product.find({ category: 4 }, function(err, docs) {
         var productChunks = [];
