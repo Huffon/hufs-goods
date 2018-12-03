@@ -1,0 +1,30 @@
+{{!-- 카테고리 화면에 제품들 찍어주는 코드 --}}
+<br/>
+{{# each products }}
+<div class="row">
+    {{# each this }}
+    {{# if this.category}}
+        <div class="col-sm-6 col-md-4">
+            <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{{ this.imgPath }}" alt="product_im">
+            <div class="card-body">
+                <h5 class="card-title">{{ this.title }}</h5>
+                <p class="card-text">{{ this.description }}</p>
+                {{# if this.qty }}
+                <div class="clearfix">
+                    <div class="price pull-left"> &#65510;{{ this.price }}</div>
+                    <a href="/add-to-cart/{{this._id}}" class="btn btn-success pull-right">Add</a>
+                </div>
+                {{else}}
+                <div class="clearfix">
+                    <h4><span class="badge badge-dark pull-right">Sold out</span></h4>
+                </div>
+                {{/if}}
+            </div>
+            </div>
+        </div>
+    {{/if}}
+    {{/each}}
+</div>
+<br/>
+{{/each}}
