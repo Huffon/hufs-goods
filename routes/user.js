@@ -25,6 +25,7 @@ router.get('/profile', isLoggedIn, function(req, res, next) {
 
 // 로그아웃 구현
 router.get('/logout', function(req, res, next) {
+    req.session.destroy(function(err){});
     req.logout();
     res.redirect('/');
 });
@@ -65,7 +66,10 @@ router.post('/signin', passport.authenticate('local.signin', {
   failureRedirect: '/user/signin',
   failureFlash: true
 }), function(req, res, next) {
-    if (req.session.oldUrl) {
+    // 관리자 유무 검사
+    if(req.session.passport.user =='5c125b1479a91247a08f5731'){
+      res.redirect('/');
+    } else if (req.session.oldUrl) {
         var oldUrl = req.session.oldUrl;
         req.session.oldUrl = null
         res.redirect(oldUrl);

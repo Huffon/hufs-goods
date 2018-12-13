@@ -32,4 +32,12 @@ module.exports = function Cart(oldCart) {
         }
         return arr;
     };
+
+    this.generateIdArray = function(){
+      var arr ={};
+      for(var id in this.items){
+        arr[id]=this.items[id].qty;
+      }
+      return arr;
+    };
 };

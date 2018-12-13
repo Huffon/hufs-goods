@@ -7,13 +7,15 @@ var Order = require('../models/order');
 // 초기 화면 렌더링
 router.get('/', function(req, res, next) {
   var successMsg = req.flash('success')[0];
+  var _admin = isAdmin(req, res);
+
   Product.find(function(err, docs) {
       var productChunks = [];
       var chunkSize = 3;
       for (var i = 0; i < docs.length; i += chunkSize){
           productChunks.push(docs.slice(i, i + chunkSize));
       }
-      res.render('shop/index', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
+      res.render('shop/index', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg, admin:_admin });
   });
 });
 
@@ -69,7 +71,8 @@ router.get('/living', function(req, res, next) {
         res.render('shop/living', {title: 'Hufs Goods', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
     });
   });
-// 장바구니 기능 구현
+
+  // 장바구니 기능 구현
 router.get('/add-to-cart/:id', function(req, res, next) {
     var productId = req.params.id;
     var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -149,6 +152,20 @@ router.post('/checkout', isLoggedIn, function(req, res, next) {
     });
 });
 
+// 재고관리 재고 감소
+router.get('/substock/:id', function(req, res, next) {
+    var productId = req.params.id;
+    subStock(productId,1);
+    res.redirect('/');
+});
+//재고관리 재고 추가
+router.get('/addstock/:id', function(req, res, next) {
+    var productId = req.params.id;
+
+    addStock(productId);
+    res.redirect('/');
+});
+
 module.exports = router;
 
 // 로그인 되어있는지 확인하는 함수
@@ -159,3 +176,42 @@ function isLoggedIn(req, res, next) {
     req.session.oldUrl = req.url;
     res.redirect('/user/signin');
 };
+
+//관리자인지 확인하는 함수
+function isAdmin(req, res) {
+  if (req.isAuthenticated()) {
+    if (req.session.passport.user == '5c125b1479a91247a08f5731'){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+// 재고 추가
+function addStock(productId) {
+  Product.findById(productId, function(err, product) {
+    if (err) {}
+    else{
+      product.qty++;
+      product.save(function(err, qty) {
+        console.log(qty.qty);
+      });
+    }
+  });
+}
+
+//재고 감소
+function subStock(productId, num) {
+  Product.findById(productId, function(err, product) {
+    if (err) {}
+    else {
+      if (product.qty==0) {}
+      else {
+        product.qty -= num;
+        product.save(function(err, qty) {
+          console.log(qty.qty);
+        });
+      }
+    }
+  });
+}
