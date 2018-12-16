@@ -1,0 +1,41 @@
+<br/>
+{{# if admin}}
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+
+      <th scope="col">Title</th>
+
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody >
+    {{# each orders }}
+    {{# each this.items }}
+
+    <tr>
+
+      <td class="align-middle">{{this.item.title}}</td>
+      <td class="align-middle">{{this.item.price}}</td>
+
+      <td class="align-middle">{{this.qty}}개</td>
+      <td class="align-middle">{{this.price}}원</td>
+
+    </tr>
+    {{/each}}
+    {{/each}}
+
+  </tbody>
+  <tfoot>
+    <td class="align-middle">합계</td>
+    <td class="align-middle"></td>
+
+
+    <td class="align-middle">{{qty}}개</td>
+    <td class="align-middle">{{total}}원</td>
+
+  </tfoot>
+</table>
+{{/if}}

@@ -1,0 +1,38 @@
+<br/>
+{{# if admin}}
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+
+      <th scope="col">Images</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Stock</th>
+    </tr>
+  </thead>
+  <tbody >
+    {{# each products }}
+    {{# each this }}
+
+    <tr>
+
+      <td class="align-middle"><img class="card-img-top" src="{{ this.imgPath }}" style="width:50px; height:50px;"alt="product_im"></td>
+      <td class="align-middle">{{this.title}}</td>
+      <td class="align-middle">{{this.description}}</td>
+      <td class="align-middle">{{this.price}}</td>
+      <td class="align-middle">
+        <div class="btn-group btn-group-justified">
+          <button type="button" class="btn-stock" onclick="location.href='/substock/{{this._id}}'" >-</button>
+          <div class="qty">&nbsp;{{this.qty}}&nbsp;</div>
+          <button type="button" class="btn-stock" onclick="location.href='/addstock/{{this._id}}'" >+</button>
+        </div>
+      </td>
+
+    </tr>
+    {{/each}}
+    {{/each}}
+
+  </tbody>
+</table>
+{{/ if}}

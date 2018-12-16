@@ -19,6 +19,41 @@ router.get('/', function(req, res, next) {
   });
 });
 
+// 재고관리 화면 렌더링
+router.get('/stock', function(req, res, next) {
+
+    var _admin = isAdmin(req, res);
+    Product.find(function(err, docs) {
+        var productChunks = [];
+        var chunkSize = 3;
+        for (var i = 0; i < docs.length; i += chunkSize){
+            productChunks.push(docs.slice(i, i + chunkSize));
+        }
+        res.render('shop/stock', {title: 'Hufs Goods', products: productChunks, admin:_admin});
+    });
+  });
+  
+  // 주문 관리 화면 렌더링
+  router.get('/orders', function(req, res, next) {
+    var _admin = isAdmin(req, res);
+    Order.find(function(err, orders) {
+        if (err) {
+            return res.write('Error!');
+        }
+        var cart;
+        var total_price=0;
+        var qty=0;
+        orders.forEach(function(order) {
+            cart = new Cart(order.cart);
+            order.items = cart.generateArray();
+            total_price +=cart.totalPrice;
+            qty +=cart.totalQty
+  
+        });
+        res.render('shop/orders', { title: 'Hufs Goods', orders: orders, total: total_price, qty: qty, admin:_admin});
+    });
+  });
+
 // 공예품 화면 렌더링
 router.get('/craft', function(req, res, next) {
     var successMsg = req.flash('success')[0];
