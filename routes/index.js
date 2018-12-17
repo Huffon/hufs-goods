@@ -191,14 +191,14 @@ router.post('/checkout', isLoggedIn, function(req, res, next) {
 router.get('/substock/:id', function(req, res, next) {
     var productId = req.params.id;
     subStock(productId,1);
-    res.redirect('/');
+    res.redirect('/stock');
 });
 //재고관리 재고 추가
 router.get('/addstock/:id', function(req, res, next) {
     var productId = req.params.id;
 
     addStock(productId);
-    res.redirect('/');
+    res.redirect('/stock');
 });
 
 module.exports = router;
@@ -215,7 +215,7 @@ function isLoggedIn(req, res, next) {
 //관리자인지 확인하는 함수
 function isAdmin(req, res) {
   if (req.isAuthenticated()) {
-    if (req.session.passport.user == '5c125b1479a91247a08f5731'){
+    if (req.session.passport.user == '5c15f7cff211325f7db1e70b'){
       return 1;
     }
   }
